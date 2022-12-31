@@ -98,15 +98,17 @@ k2 = .0085;
 % k1 = K_p;
 % k2 = K_d;
 
-
-k = [0;0;1];
-wr0 = 0;
-Mr = 0;
+% 
+% k = [0;0;1];
+% wr0 = 0;
+% Mr = 0;
  
 M_RW = 60e-3;
 R_RW = 23e-3;
 Ir_RW = .25 * M_RW * R_RW^4;
 Ir = Ir_RW;
+
+time = struct('de_tumble', (orbit_E.T)/100, 'traj_track', (orbit_E.T)/2);
 
 %% COMPUTATION
 % simu = out;
@@ -118,7 +120,7 @@ Ir = Ir_RW;
 % Ae = simu.Ae;
 % ome = simu.ome;
 % time = simu.time;
-% %% PLOT
+ %% PLOT
 % figure(1)
 % 
 % subplot(1, 3, 1)
