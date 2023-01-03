@@ -79,7 +79,7 @@ A0=[1 0 0; 0 1 0; 0 0 1];
 
 % Sensor
 gyro = struct('c', 15e-3, 'ARW', deg2rad(0.15), 'RRW', deg2rad(0.0003), ...
-              'freq', 262, 'accuracy', 2.4e-9); % the accurancy is taken from wikipedia [rad]
+              'freq', 100, 'accuracy', 2.4e-9); % the accurancy is taken from wikipedia [rad]
 gyro.A_eps = [1, 0.2e-3, 0.2e-3;
                 0.2e-3, 1, 0.2e-3
                 0.2e-3, 0.2e-3, 1];
@@ -95,13 +95,6 @@ K_d = 40 * Iz * 0.7 * 20 * orbit_E.n; % we assumed csi = 0.3
 k1 = .09;
 k2 = .0085;
 
-% k1 = K_p;
-% k2 = K_d;
-
-% 
-% k = [0;0;1];
-% wr0 = 0;
-% Mr = 0;
  
 M_RW = 60e-3;
 R_RW = 23e-3;
@@ -111,30 +104,26 @@ Ir = Ir_RW;
 time = struct('de_tumble', (orbit_E.T)/100, 'traj_track', (orbit_E.T)/2);
 
 %% COMPUTATION
-% simu = out;
-% w    = simu.w;
-% M_RW = simu.M_RW;
-% magn = simu.magn;
-% srp  = simu.srp;
-% grav = simu.grav;
-% Ae = simu.Ae;
-% ome = simu.ome;
-% time = simu.time;
- %% PLOT
-% figure(1)
-% 
-% subplot(1, 3, 1)
-% plot(t, w(1, 1, :), '-');
-% grid on;
-% xlabel('time [s]'); ylabel('w_x [rad/s]');
-% 
-% subplot(1, 3, 2)
-% plot(t, w(2, 1, :), '-');
-% grid on;
-% xlabel('time [s]'); ylabel('w_y [rad/s]');
-% 
-% subplot(1, 3, 3)
-% plot(t, w(3, 1, :), '-');
-% grid on;
-% xlabel('time [s]'); ylabel('w_z [rad/s]');
-% 
+w    = out.omega;
+M_RW = out.M_RW;
+M_magn = out.M_magn;
+M_srp = out.M_srp;
+M_grav = out.M_grav;
+point_err = out.point_err;
+
+time = 0:length(w);
+%% PLOT
+
+figure()
+hold on
+plot(time, w(1));
+plot(time, w(2));
+plot(time, w(3));
+
+xlabel('time [s]'); ylabel('angular velocity [rad/s]');
+legend('w_x', 'w_y', 'w_z');
+title('Spacecraft angular velocity in body axes');
+
+grid on;
+
+
